@@ -1,28 +1,35 @@
 :root {
-  --app-bg: #f7f6f2;
-  --surface: #fcfbf7;
-  --surface-soft: #f1f0eb;
-  --paper: #fffdf7;
-  --ink: #222831;
-  --body: #424851;
-  --muted: #66707c;
-  --hairline: #dedbd2;
-  --hairline-strong: #c9c3b8;
-  --primary: #243447;
-  --primary-hover: #172433;
-  --primary-ink: #f7f6f2;
-  --danger: #9f3327;
-  --danger-soft: #f9e9e5;
-  --success-bg: #ecfdf5;
-  --success-ink: #047857;
-  --focus: #c75f3b;
-  --shadow-soft: 0 8px 18px rgba(36, 52, 71, 0.08);
+  /* Airbnb Design System */
+  --rausch: #ff385c;
+  --rausch-active: #e00b41;
+  --rausch-disabled: #ffd1da;
+  --rausch-light: #fff0f3;
+  
+  --ink: #222222;
+  --body: #3f3f3f;
+  --muted: #6a6a6a;
+  --muted-soft: #929292;
+  --hairline: #dddddd;
+  --hairline-soft: #ebebeb;
+  --border-strong: #c1c1c1;
+  
+  --canvas: #ffffff;
+  --surface-soft: #f7f7f7;
+  --surface-card: #ffffff;
+  --surface-strong: #f2f2f2;
+  
+  --on-primary: #ffffff;
+  --danger: #c13515;
+  --danger-hover: #b32505;
+  
+  --shadow-soft: 0 6px 16px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.12);
 
   color: var(--body);
-  background: var(--app-bg);
+  background: var(--canvas);
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+    "Airbnb Cereal VF", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -36,7 +43,7 @@
 body {
   min-width: 320px;
   margin: 0;
-  background: var(--app-bg);
+  background: var(--canvas);
 }
 
 button,
@@ -58,7 +65,7 @@ button:disabled {
 
 .receipt-app {
   min-height: 100svh;
-  padding: 28px;
+  padding: 40px 24px;
 }
 
 .app-header {
@@ -81,17 +88,18 @@ button:disabled {
 }
 
 .app-header h1 {
-  font-size: 28px;
-  line-height: 1.2;
-  font-weight: 650;
+  font-size: 26px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--ink);
 }
 
 .eyebrow {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   color: var(--muted);
-  font-size: 13px;
-  font-weight: 650;
-  letter-spacing: 0;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 .receipt-workspace {
@@ -105,11 +113,12 @@ button:disabled {
 
 .receipt-form {
   display: grid;
-  gap: 22px;
+  gap: 24px;
   padding: 24px;
   border: 1px solid var(--hairline);
   border-radius: 12px;
-  background: var(--surface);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-soft);
 }
 
 .form-section {
@@ -124,9 +133,10 @@ button:disabled {
 
 .form-section h2,
 .preview-toolbar h2 {
-  font-size: 17px;
-  line-height: 1.25;
-  font-weight: 650;
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--ink);
 }
 
 .section-heading {
@@ -140,15 +150,17 @@ button:disabled {
   display: inline-flex;
   align-items: center;
   width: fit-content;
-  min-height: 28px;
-  padding: 5px 10px;
+  min-height: 32px;
+  padding: 8px 16px;
   border-radius: 999px;
-  color: var(--success-ink);
-  background: var(--success-bg);
-  font-size: 13px;
-  font-weight: 650;
+  color: var(--rausch);
+  background: var(--rausch-light);
+  font-size: 12px;
+  font-weight: 600;
   line-height: 1;
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .field-grid {
@@ -166,85 +178,108 @@ button:disabled {
 }
 
 .field span {
-  color: var(--body);
-  font-size: 13px;
-  font-weight: 600;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .ui-input {
   width: 100%;
-  min-height: 44px;
-  border: 1px solid var(--hairline-strong);
+  min-height: 48px;
+  border: 1px solid var(--hairline);
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 12px 16px;
   color: var(--ink);
-  background: var(--surface);
+  background: var(--canvas);
   outline: none;
+  font-size: 15px;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .ui-input::placeholder {
-  color: #56616d;
+  color: var(--muted);
+  font-weight: 400;
 }
 
 .ui-input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(199, 95, 59, 0.16);
+  border-color: var(--ink);
+  box-shadow: 0 0 0 1px var(--ink);
+}
+
+.ui-input:hover:not(:focus) {
+  border-color: var(--border-strong);
 }
 
 .ui-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
+  min-height: 48px;
   border: 1px solid transparent;
   border-radius: 8px;
-  padding: 9px 14px;
-  font-size: 14px;
-  font-weight: 650;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
   line-height: 1;
-  transition:
-    background-color 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease;
+  transition: all 200ms ease;
 }
 
 .ui-button:focus-visible {
-  outline: 2px solid var(--focus);
+  outline: 2px solid var(--rausch);
   outline-offset: 2px;
 }
 
 .ui-button-primary {
-  color: var(--primary-ink);
-  background: var(--primary);
+  color: var(--on-primary);
+  background: var(--rausch);
+  border-radius: 8px;
 }
 
 .ui-button-primary:hover {
-  background: var(--primary-hover);
+  background: var(--rausch-active);
+  box-shadow: var(--shadow-hover);
 }
 
 .ui-button-secondary {
   color: var(--ink);
-  border-color: var(--hairline-strong);
-  background: var(--surface);
+  border: 1px solid var(--hairline);
+  background: var(--canvas);
+  border-radius: 8px;
 }
 
 .ui-button-secondary:hover {
+  border-color: var(--ink);
   background: var(--surface-soft);
 }
 
 .ui-button-danger {
   color: var(--danger);
-  background: var(--danger-soft);
+  background: transparent;
+  border: 1px solid var(--danger);
+  border-radius: 8px;
+}
+
+.ui-button-danger:hover {
+  color: var(--on-primary);
+  background: var(--danger);
 }
 
 .ui-button-danger:disabled {
-  color: #9a817a;
+  color: var(--muted);
+  border-color: var(--hairline);
   background: var(--surface-soft);
+  cursor: not-allowed;
 }
 
 .ui-button-ghost {
   color: var(--ink);
   background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ui-button-ghost:hover {
+  color: var(--rausch);
 }
 
 .editor-table {
@@ -269,10 +304,11 @@ button:disabled {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
+  min-height: 48px;
   border-radius: 8px;
-  color: var(--body);
+  color: var(--muted);
   background: var(--surface-soft);
+  font-weight: 500;
 }
 
 .money-input {
@@ -300,9 +336,9 @@ button:disabled {
 
 .preview-total {
   margin: 0;
-  color: var(--ink);
+  color: var(--rausch);
   font-size: 20px;
-  font-weight: 750;
+  font-weight: 600;
 }
 
 .receipt-paper {
@@ -312,8 +348,8 @@ button:disabled {
   padding: clamp(18px, 2.35vw, 18mm);
   color: var(--ink);
   border: 1px solid var(--hairline);
-  border-radius: 8px;
-  background: var(--paper);
+  border-radius: 12px;
+  background: var(--canvas);
   box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
@@ -325,33 +361,37 @@ button:disabled {
   align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
-  padding-bottom: 14px;
-  border-bottom: 2px solid var(--ink);
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--hairline);
 }
 
 .receipt-kicker {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .receipt-paper h2 {
-  font-size: 24px;
-  line-height: 1.2;
-  font-weight: 750;
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--ink);
 }
 
 .receipt-paper h3 {
   font-size: 16px;
-  line-height: 1.35;
-  font-weight: 700;
+  line-height: 1.4;
+  font-weight: 500;
+  color: var(--body);
 }
 
 .receipt-paper p {
   margin: 0;
   color: var(--body);
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .receipt-meta {
@@ -363,13 +403,13 @@ button:disabled {
 
 .receipt-meta p {
   color: var(--ink);
-  font-weight: 750;
+  font-weight: 600;
 }
 
 .receipt-company {
   display: grid;
-  gap: 6px;
-  padding: 14px 0;
+  gap: 8px;
+  padding: 16px 0;
   border-bottom: 1px solid var(--hairline);
 }
 
@@ -390,8 +430,10 @@ button:disabled {
 
 .receipt-label {
   color: var(--muted) !important;
-  font-size: 13px;
-  font-weight: 650;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .compact-label {
@@ -412,17 +454,19 @@ button:disabled {
 
 .receipt-table th,
 .receipt-table td {
-  padding: 8px 10px;
+  padding: 12px;
   border-bottom: 1px solid var(--hairline);
   vertical-align: top;
 }
 
 .receipt-table th {
-  color: var(--body);
+  color: var(--ink);
   background: var(--surface-soft);
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
   text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .receipt-table th:first-child,
@@ -438,7 +482,7 @@ button:disabled {
 }
 
 .amount-cell {
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .receipt-summary {
@@ -461,23 +505,25 @@ button:disabled {
 
 .total-box {
   display: grid;
-  gap: 6px;
-  padding: 14px;
-  border-radius: 8px;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 12px;
   color: var(--ink);
   background: var(--surface-soft);
 }
 
 .total-box span {
-  color: var(--body);
-  font-size: 13px;
-  font-weight: 650;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .total-box strong {
   font-size: 24px;
-  line-height: 1.1;
+  line-height: 1.2;
   text-align: right;
+  font-weight: 600;
+  color: var(--rausch);
 }
 
 .signature-row {
@@ -498,7 +544,7 @@ button:disabled {
   display: block;
   min-width: 200px;
   height: 40px;
-  border-bottom: 1px solid var(--hairline-strong);
+  border-bottom: 1px solid var(--border-strong);
 }
 
 .signature-label {
@@ -585,14 +631,14 @@ button:disabled {
 
 @media print {
   :root {
-    --app-bg: #fffdf7;
-    --surface: #fffdf7;
-    --paper: #fffdf7;
+    --canvas: #ffffff;
+    --surface-card: #ffffff;
+    --surface-soft: #f7f7f7;
   }
 
   body {
     margin: 0;
-    background: var(--paper);
+    background: var(--canvas);
   }
 
   .app-header,
@@ -631,5 +677,6 @@ button:disabled {
     overflow: hidden;
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
+    background: var(--canvas);
   }
 }

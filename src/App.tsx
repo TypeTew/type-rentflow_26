@@ -215,6 +215,66 @@ function App() {
     window.print()
   }
 
+  const exportToExcel = async () => {
+    // Dynamically load SheetJS from CDN
+    const script = document.createElement('script')
+    script.src = 'https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js'
+    script.async = true
+    
+    await new Promise<void>((resolve, reject) => {
+      script.onload = () => resolve()
+      script.onerror = () => reject(new Error('Failed to load SheetJS'))
+      document.head.appendChild(script)
+    })
+
+    // Access XLSX from global window
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const XLSX = (window as unknown as { XLSX: any }).XLSX
+
+    const worksheetData = [
+      ['ใบเสร็จรับเงิน'],
+      ['เลขที่', data.receiptNo || '-'],
+      ['วันที่', formatDate(data.issueDate)],
+      [''],
+      ['ผู้รับเงิน', data.sellerName],
+      ['ที่อยู่', data.sellerAddress],
+      ['โทรศัพท์', data.sellerPhone || '-'],
+      [''],
+      ['ลูกค้า', data.customerName],
+      ['ที่อยู่ลูกค้า', data.customerAddress],
+      ['เลขประจำตัวผู้เสียภาษี', data.customerTaxId || '-'],
+      [''],
+      ['รายการสินค้า/บริการ'],
+      ['ลำดับ', 'รายการ', 'จำนวนเงิน'],
+      ...items.map((item, index) => [
+        index + 1,
+        item.description,
+        parseMoney(item.amount),
+      ]),
+      [''],
+      ['รวมสุทธิ', '', total],
+      ['จำนวนเงินตัวอักษร', amountToThaiBaht(total)],
+    ]
+
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData)
+    
+    // Set column widths
+    worksheet['!cols'] = [
+      { wch: 15 },  // A
+      { wch: 50 },  // B
+      { wch: 15 },  // C
+    ]
+
+    const workbook = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'ใบเสร็จ')
+
+    const fileName = `ใบเสร็จ_${data.receiptNo || 'RECEIPT'}_${data.issueDate}.xlsx`
+    XLSX.writeFile(workbook, fileName)
+
+    // Cleanup script
+    document.head.removeChild(script)
+  }
+
   return (
     <main className="receipt-app">
       <header className="app-header">
@@ -222,9 +282,14 @@ function App() {
           <p className="eyebrow">RentFlow</p>
           <h1>ระบบออกใบเสร็จเงินสด</h1>
         </div>
-        <Button variant="primary" onClick={printReceipt}>
-          พิมพ์ใบเสร็จ
-        </Button>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <Button variant="secondary" onClick={exportToExcel}>
+            Export Excel
+          </Button>
+          <Button variant="primary" onClick={printReceipt}>
+            พิมพ์ใบเสร็จ
+          </Button>
+        </div>
       </header>
 
       <div className="receipt-workspace">
