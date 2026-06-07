@@ -17,9 +17,9 @@ var i = r(import.meta.url), a = n.dirname(i), o, s = () => {
 		icon: n.join(a, "../public/favicon.ico")
 	});
 	let r = n.join(a, "../dist/index.html");
-	console.log("Loading:", r), t.isPackaged ? (o.loadFile(r).catch((e) => {
+	console.log("Loading:", r), t.isPackaged ? o.loadFile(r).catch((e) => {
 		console.error("Failed to load:", e);
-	}), o.webContents.openDevTools()) : (o.loadURL("http://localhost:5173"), o.webContents.openDevTools()), o.webContents.on("did-fail-load", (e, t, n) => {
+	}) : (o.loadURL("http://localhost:5173"), o.webContents.openDevTools()), o.webContents.on("did-fail-load", (e, t, n) => {
 		console.error("Failed to load:", t, n);
 	}), o.on("closed", () => {
 		o = null;

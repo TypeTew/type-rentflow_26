@@ -30,8 +30,6 @@ const createWindow = () => {
     mainWindow.loadFile(indexPath).catch(err => {
       console.error('Failed to load:', err);
     });
-    // เปิด DevTools เพื่อ debug
-    mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadURL('http://localhost:5173');
     mainWindow.webContents.openDevTools();
