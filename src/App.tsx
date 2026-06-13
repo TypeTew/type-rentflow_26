@@ -76,6 +76,7 @@ function getThaiMonth(value: string): string {
   if (!value) return ''
   return new Intl.DateTimeFormat('th-TH', {
     month: 'long',
+    year: 'numeric',
   }).format(new Date(`${value}T00:00:00`))
 }
 
