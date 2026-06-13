@@ -215,23 +215,11 @@ function App() {
     window.print()
   }
 
-  const exportToExcel = async () => {
-    // Dynamically load SheetJS from CDN
-    const script = document.createElement('script')
-    script.src = 'https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js'
-    script.async = true
+  const exportToCSV = () => {
+    // CSV with UTF-8 BOM for Thai character support in Excel
+    const BOM = '\uFEFF'
     
-    await new Promise<void>((resolve, reject) => {
-      script.onload = () => resolve()
-      script.onerror = () => reject(new Error('Failed to load SheetJS'))
-      document.head.appendChild(script)
-    })
-
-    // Access XLSX from global window
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const XLSX = (window as unknown as { XLSX: any }).XLSX
-
-    const worksheetData = [
+    const csvRows = [
       ['ใบเสร็จรับเงิน'],
       ['เลขที่', data.receiptNo || '-'],
       ['วันที่', formatDate(data.issueDate)],
@@ -256,23 +244,29 @@ function App() {
       ['จำนวนเงินตัวอักษร', amountToThaiBaht(total)],
     ]
 
-    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData)
+    // Convert to CSV string (handle commas and quotes properly)
+    const csvContent = csvRows.map(row =>
+      row.map(cell => {
+        const cellStr = String(cell ?? '')
+        // Escape quotes and wrap in quotes if contains comma, quote, or newline
+        if (cellStr.includes(',') || cellStr.includes('"') || cellStr.includes('\n')) {
+          return '"' + cellStr.replace(/"/g, '""') + '"'
+        }
+        return cellStr
+      }).join(',')
+    ).join('\n')
+
+    // Create blob and download
+    const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    const url = URL.createObjectURL(blob)
     
-    // Set column widths
-    worksheet['!cols'] = [
-      { wch: 15 },  // A
-      { wch: 50 },  // B
-      { wch: 15 },  // C
-    ]
-
-    const workbook = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'ใบเสร็จ')
-
-    const fileName = `ใบเสร็จ_${data.receiptNo || 'RECEIPT'}_${data.issueDate}.xlsx`
-    XLSX.writeFile(workbook, fileName)
-
-    // Cleanup script
-    document.head.removeChild(script)
+    link.setAttribute('href', url)
+    link.setAttribute('download', `ใบเสร็จ_${data.receiptNo || 'RECEIPT'}_${data.issueDate}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
   }
 
   return (
@@ -283,8 +277,8 @@ function App() {
           <h1>ระบบออกใบเสร็จเงินสด</h1>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
-          <Button variant="secondary" onClick={exportToExcel}>
-            Export Excel
+          <Button variant="secondary" onClick={exportToCSV}>
+            Export CSV
           </Button>
           <Button variant="primary" onClick={printReceipt}>
             พิมพ์ใบเสร็จ
@@ -470,7 +464,7 @@ function App() {
               </div>
             </div>
 
-            <div className="receipt-info-grid">
+            <div className="receipt-info-grid" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '24px' }}>
               <div>
                 <p className="receipt-label">ได้รับเงินจาก</p>
                 <h3>{data.customerName || 'ชื่อลูกค้า / บริษัท'}</h3>
@@ -485,16 +479,16 @@ function App() {
                     <p>ตั้งแต่ {formatDate(data.rentFrom)} ถึง {data.rentTo ? formatDate(data.rentTo) : '-'}</p>
                   </>
                 )}
-              </div>
-              <div>
-                <p className="receipt-label">วันที่ออกเอกสาร</p>
-                <p>{formatDate(data.issueDate)}</p>
                 {data.paymentMethod && (
                   <>
                     <p className="receipt-label compact-label">วิธีชำระเงิน</p>
                     <p>{data.paymentMethod}</p>
                   </>
                 )}
+              </div>
+              <div style={{ textAlign: 'left' }}>
+                <p className="receipt-label">วันที่ออกเอกสาร</p>
+                <p>{formatDate(data.issueDate)}</p>
               </div>
             </div>
 

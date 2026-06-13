@@ -358,11 +358,27 @@ button:disabled {
 
 .receipt-topline {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
   gap: 20px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--hairline);
+  position: relative;
+  text-align: center;
+}
+
+.receipt-topline > div:first-child {
+  text-align: center;
+}
+
+.receipt-meta {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+  text-align: right;
 }
 
 .receipt-kicker {
@@ -394,13 +410,6 @@ button:disabled {
   line-height: 1.5;
 }
 
-.receipt-meta {
-  display: grid;
-  justify-items: end;
-  gap: 10px;
-  text-align: right;
-}
-
 .receipt-meta p {
   color: var(--ink);
   font-weight: 600;
@@ -423,8 +432,7 @@ button:disabled {
 
 .receipt-info-grid {
   display: grid;
-  grid-template-columns: 1fr 190px;
-  gap: 24px;
+  grid-template-columns: 1fr;
   padding: 14px 0;
 }
 
